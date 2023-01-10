@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        body {
+            background: rgb(190, 189, 189);
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 1000px;
+            height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            background: gray;
+        }
+
+        .container .out {
+            color: black;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .container .out span {
+            margin-left: 10px;
+            font-size: 30px;
+        }
+
+        .container .div1 {
+            width: 700px;
+            height: 250px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column-reverse;
+            background: rgb(102, 99, 99);
+        }
+
+        .container .div1 p {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .container .div1 .div4 {
+            display: flex;
+            padding: 15px;
+            justify-content: space-around;
+            align-items: center;
+            width: 500px;
+            height: 180px;
+            background: rgb(70, 67, 67);
+        }
+
+        .container .div1 .div4 .div {
+            width: 150px;
+            height: 150px;
+            background: rgb(80, 78, 78);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container .div1 .div4 .div button {
+            width: 50px;
+            height: 30px;
+            outline: none;
+        }
+
+        .container .inputBlock {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .container .inputBlock input {
+            width: 200px;
+            height: 25px;
+            outline: none;
+        }
+
+        .container .inputBlock button {
+            margin-left: 15px;
+            width: 100px;
+            height: 25px;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="out">
+            Selected:
+            <span id='contentSelected'></span>
+        </div>
+        <div class="div1" div-name="Div 1 clicked">
+            <p id="out2">Some text</p>
+            <div class="div4" div-name="Div 4 clicked">
+                <div class="div" div-name="Div 3 clicked">
+                    <button id="btn1">btn 1</button>
+                </div>
+                <div class="div" div-name="Div 2 clicked">
+                    <button id="btn2">btn 2</button>
+                </div>
+            </div>
+        </div>
+        <div class="inputBlock">
+            <input id='text' type="text" />
+            <button id="myBtn">OK</button>
+        </div>
+    </div>
+</body>
+<script>
+    const divs = document.querySelector(".div1");
+    const selectedElement = document.querySelector("#contentSelected");
+    const btn1 = document.querySelector("#btn1");
+    const btn2 = document.querySelector("#btn2");
+    const out2 = document.querySelector("#out2");
+    const outSideClick = document.getElementsByTagName("html");
+
+    const input = document.querySelector("#text");
+    const myBtn = document.querySelector("#myBtn");
+    myBtn.disabled = true;
+
+    divs.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const getAttr = e.target.getAttribute("div-name");
+        selectedElement.textContent = getAttr;
+    });
+
+    btn1.addEventListener("click", (e) => {
+        e.stopPropagation();
+        selectedElement.innerHTML = "Button 1 was clicked";
+    });
+
+    btn2.addEventListener("click", (e) => {
+        e.stopPropagation();
+        selectedElement.innerHTML = "Button 2 was clicked";
+    });
+
+    outSideClick[0].addEventListener("click", (e) => {
+        selectedElement.innerHTML = "";
+    });
+
+    input.addEventListener("input", function (e) {
+        if (e.target.value !== '') {
+            myBtn.disabled = false;
+        }
+        const characters = e.target.value.split("");
+        const filtered = characters.filter((c) => !(c >= "A" && c <= "Z" || c >= "А" && c <= "Я"));
+        e.target.value = filtered.join("");
+    });
+
+    myBtn.addEventListener("click", () => {
+        out2.textContent = input.value;
+        input.value = "";
+        myBtn.disabled = true;
+    });
+</script>
+
+</html>
